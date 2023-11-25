@@ -16,6 +16,7 @@ on:
         default: 3.11.6
       working-directory:
         description: Directory that contains main.py
+        default: .
         required: True
         type: string
 runs:
@@ -33,6 +34,7 @@ runs:
       shell: bash
       run: |
         cd ${{inputs.working-directory}}
+        echo ${{inputs.working-directory}}
 
     #install some dependencies
     - name: Install and upgrade dependencies
