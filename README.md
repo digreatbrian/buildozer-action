@@ -1,5 +1,4 @@
-# buildozer-action
-## Action to build Kivy App to APK
+# Action to build Kivy App to APK
 
 ### How to use  
 ```
