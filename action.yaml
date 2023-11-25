@@ -3,7 +3,6 @@ description: Convert Kivy app to APK
 branding:
   icon: kivy
   color: green
-
 on:
   workflow-call:
     inputs:
@@ -14,8 +13,7 @@ on:
       python-version:
         description: Python version to use
         required: false
-        default: 3.11.6
-        
+        default: 3.11.6      
 runs:
   using: composite
   steps:
@@ -25,8 +23,7 @@ runs:
         with:
           architecture: x64
           python-version: ${inputs.python-version}
-
-    #updating and installing dependencies
+          
     - name: Install and upgrade dependencies
       id: dependencies-install
       run: |
