@@ -22,7 +22,7 @@ runs:
       uses: actions/setup-python@v2
       with:
         architecture: x64
-        python-version: ${inputs.python-version}
+        python-version: ${{inputs.python-version}}
 
     #install some dependencies
     - name: Install and upgrade dependencies
@@ -54,7 +54,7 @@ runs:
       id: buildozer
       shell: bash
       run: |
-        ${inputs.command}
+        ${{inputs.command}}
       
     #upload apk
     - name: Upload artifacts
