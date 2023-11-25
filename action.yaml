@@ -33,7 +33,7 @@ runs:
     - name: Setting up Directory
       shell: bash
       run: |
-        cd ${{inputs.working-directory}}
+        cd ${{inputs.working-directory}} \
         echo ${{inputs.working-directory}}
 
     #install some dependencies
