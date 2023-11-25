@@ -7,6 +7,7 @@ on:
     branches: [ main ]
 
 jobs:
+  runs-on: ubuntu-latest
   steps:
     - name: Build
       uses: digreatbrian/buildozer-action@v1
