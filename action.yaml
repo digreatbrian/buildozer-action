@@ -4,20 +4,21 @@ branding:
   icon: kivy
   color: green
 
-workflow-call:
-  inputs:
-    command:
-      description: Buildozer command
-      required: false
-      default: buildozer -v android debug
-    python-version:
-      description: Python version to use
-      required: false
-      default: 3.11.6
-    runs-on:
-      description: Platform to run on eg ubuntu-latest, windows-latest, etc
-      required: False
-      default: ubuntu-latest
+on:
+  workflow-call:
+    inputs:
+      command:
+        description: Buildozer command
+        required: false
+        default: buildozer -v android debug
+      python-version:
+        description: Python version to use
+        required: false
+        default: 3.11.6
+      runs-on:
+        description: Platform to run on eg ubuntu-latest, windows-latest, etc
+        required: False
+        default: ubuntu-latest
   
 runs:
   using: composite
