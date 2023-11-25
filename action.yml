@@ -13,10 +13,6 @@ inputs:
     description: Python version to use
     required: false
     default: 3.11.6
-  runs-on:
-    required: false
-    description: Platform to run on eg ubuntu-latest, windows-latest, etc
-    default: ubuntu-latest
   
 runs:
   using: composite
