@@ -13,7 +13,11 @@ on:
       python-version:
         description: Python version to use
         required: false
-        default: 3.11.6      
+        default: 3.11.6
+      working-directory:
+        description: Directory that contains main.py
+        required: True
+        type: string
 runs:
   using: composite
   steps:
@@ -23,6 +27,12 @@ runs:
       with:
         architecture: x64
         python-version: ${{inputs.python-version}}
+
+    #changing to working directory
+    - name: Setting up Directory
+      shell: bash
+      run: |
+        cd ${{inputs.working-directory}}
 
     #install some dependencies
     - name: Install and upgrade dependencies
@@ -44,8 +54,9 @@ runs:
           kivymd
             
     #install requirement in requirements.txt
-    - name: Install requirements in requirements.txt
+    - name: Install requirements in requirements.txt if it exists
       shell: bash
+      if: ${{ hashFiles('requirements.txt') != '' }}
       run: |
         python -m pip install -r requirements.txt
 
