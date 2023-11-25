@@ -7,8 +7,9 @@ on:
     branches: [ main ]
 
 jobs:
-  - name: Build
-    uses: digreatbrian/buildozer-action@v1
-    with:
-      command: buildozer -v android debug
+  steps:
+    - name: Build
+      uses: digreatbrian/buildozer-action@v1
+      with:
+        command: buildozer -v android debug
 ```
