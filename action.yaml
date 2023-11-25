@@ -20,9 +20,9 @@ runs:
     - uses: actions/checkout@v4
     - name: Setup python
       uses: actions/setup-python@v2
-        with:
-          architecture: x64
-          python-version: ${inputs.python-version}
+      with:
+        architecture: x64
+        python-version: ${inputs.python-version}
           
     - name: Install and upgrade dependencies
       id: dependencies-install
