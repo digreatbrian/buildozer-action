@@ -19,10 +19,10 @@ on:
         description: Platform to run on eg ubuntu-latest, windows-latest, etc
         required: False
         default: ubuntu-latest
-  
+
+runs-on: ubuntu-latest  
 runs:
   using: composite
-  runs-on: ${inputs.runs-on}
   steps:
     - uses: actions/checkout@v4
     - name: Setup python
