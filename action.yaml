@@ -72,9 +72,9 @@ jobs:
        #build with buildozer
        - name: Build with Buildozer
          shell: bash
-         working-directory: ${{github.events.inputs.working-directory || '.'}}
+         working-directory: ${{ inputs.working-directory || '.' }}
          run: |
-           ${{inputs.command || 'buildozer -v android debug'}}
+           ${{ inputs.buildozer-command || 'buildozer -v android debug' }}
       
         #upload apk
         - name: Upload artifacts
