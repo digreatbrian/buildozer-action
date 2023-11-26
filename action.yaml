@@ -24,7 +24,7 @@ on:
         required: true
 jobs:
   starting-buildozer-action:
-    runs-on: ${{inputs.runs-on || 'ubuntu-latest'}
+    runs-on: ${{inputs.runs-on || 'ubuntu-latest'}}
     defaults:
       run:
         working-directory: ${{inputs.working-directory || '.'}}
