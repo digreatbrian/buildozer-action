@@ -7,18 +7,17 @@ on:
   workflow-call:
     inputs:
       command:
-        description: Buildozer command
+        description: 'Buildozer command'
         required: false
-        default: buildozer -v android debug
+        default: 'buildozer -v android debug'
       python-version:
-        description: Python version to use
+        description: 'Python version to use'
         required: false
-        default: 3.11.6
+        default: '3.11.6'
       working-directory:
-        description: Directory that contains main.py
-        default: .
+        description: 'Directory that contains main.py'
+        default: '.'
         required: True
-        type: string
 runs:
   using: composite
   steps:
