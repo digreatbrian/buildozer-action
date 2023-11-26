@@ -4,7 +4,7 @@ branding:
   icon: kivy
   color: green
 on:
-  workflow-call:
+  workflow-dispatch:
     inputs:
       buildozer-command:
         description: Buildozer command
@@ -24,10 +24,10 @@ on:
         required: true
 jobs:
   starting-buildozer-action:
-    runs-on: ${{inputs.runs-on || 'ubuntu-latest'}}
+    runs-on: ${{github.events.inputs.runs-on || 'ubuntu-latest'}}
     defaults:
       run:
-        working-directory: ${{inputs.working-directory || '.'}}
+        working-directory: ${{github.events.inputs.working-directory || '.'}}
     steps:
       #changing to working directory
       - name: Setting up Directory
@@ -40,12 +40,12 @@ jobs:
         uses: actions/setup-python@v2
         with:
           architecture: x64
-          python-version: ${{inputs.python-version || '3.11.6'}}
+          python-version: ${{github.events.inputs.python-version || '3.11.6'}}
 
       #install some dependencies
       - name: Install and upgrade dependencies
         shell: bash
-        working-directory: ${{inputs.working-directory || '.'}}
+        working-directory: ${{github.events.inputs.working-directory || '.'}}
         run: |
           sudo apt update
           sudo apt install -y git zip unzip openjdk-17-jdk python3-pip autoconf libtool pkg-config zlib1g-dev libncurses5-dev libncursesw5-dev libtinfo5 cmake libffi-dev libssl-dev
@@ -64,7 +64,7 @@ jobs:
       #install requirements in requirements.txt if so
       - name: Install requirements in requirements.txt if it exists
         shell: bash
-        working-directory: ${{inputs.working-directory || '.'}}
+        working-directory: ${{github.events.inputs.working-directory || '.'}}
         if: ${{ hashFiles('requirements.txt') != '' }}
         run: |
           python -m pip install -r requirements.txt
@@ -73,7 +73,7 @@ jobs:
       - name: Build with Buildozer
         id: buildozer
         shell: bash
-        working-directory: ${{inputs.working-directory || '.'}}
+        working-directory: ${{github.events.inputs.working-directory || '.'}}
         run: |
           ${{inputs.command || 'buildozer -v android debug'}}
       
