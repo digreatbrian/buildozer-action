@@ -27,4 +27,4 @@ runs:
   steps:
     - name: start
       id: start
-      uses: ./main.yaml
+      uses: main
