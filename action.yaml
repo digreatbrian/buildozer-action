@@ -25,6 +25,7 @@ on:
 runs:
   using: composite
   steps:
+    - uses: actions/checkout@v4
     - name: start
       id: start
-      uses: main
+      uses: ./main.yaml
