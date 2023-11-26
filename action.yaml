@@ -4,7 +4,7 @@ branding:
   icon: kivy
   color: green
 on:
-  workflow-dispatch:
+  workflow-call:
     inputs:
       buildozer-command:
         description: 'Buildozer command'
