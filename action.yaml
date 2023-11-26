@@ -7,76 +7,74 @@ on:
   workflow-dispatch:
     inputs:
       buildozer-command:
-        description: Buildozer command
+        description: 'Buildozer command'
         required: true
-        default: buildozer -v android debug
+        default: 'buildozer -v android debug'
       python-version:
-        description: Python version to use
+        description: 'Python version to use'
         required: true
-        default: 3.11.6
+        default: '3.11.6'
       working-directory:
-        description: Directory that contains main.py
-        default: .
+        description: 'Directory that contains main.py'
+        default: '.'
         required: true
       runs-on:
-        description: Platform to run on defaults to ubuntu-latest
-        default: ubuntu-latest
+        description: 'Platform to run on defaults to ubuntu-latest'
+        default: 'ubuntu-latest'
         required: true
-runs:
-  jobs:
-    starting-buildozer-action:
-      runs-on: ${{github.events.inputs.runs-on || 'ubuntu-latest'}}
-      defaults:
-        run:
-          working-directory: ${{github.events.inputs.working-directory || '.'}}
-      steps:
-        #changing to working directory
-        - name: Setting up Directory
-          shell: bash
-          run: |
-            echo $PWD
+jobs:
+   starting-buildozer-action:
+     runs-on: ${{ inputs.runs-on || 'ubuntu-latest' }}
+     defaults:
+       run:
+         working-directory: ${{ inputs.working-directory || '.' }}
+     steps:
+       #changing to working directory
+       - name: Setting up Directory
+         shell: bash
+         run: |
+           echo $PWD
         
-        - uses: actions/checkout@v4
-        - name: Setup python
-          uses: actions/setup-python@v2
-          with:
-            architecture: x64
-            python-version: ${{github.events.inputs.python-version || '3.11.6'}}
+       - uses: actions/checkout@v4
+       - name: Setup python
+         uses: actions/setup-python@v2
+         with:
+           architecture: x64
+           python-version: ${{ inputs.python-version || '3.11.6' }}
 
-        #install some dependencies
-        - name: Install and upgrade dependencies
-          shell: bash
-          working-directory: ${{github.events.inputs.working-directory || '.'}}
-          run: |
-            sudo apt update
-            sudo apt install -y git zip unzip openjdk-17-jdk python3-pip autoconf libtool pkg-config zlib1g-dev libncurses5-dev libncursesw5-dev libtinfo5 cmake libffi-dev libssl-dev
-            sudo apt upgrade
-            export PATH=$PATH:~/.local/bin/
-            python -m pip install --upgrade \
-              Cython==0.29.33 \
-              virtualenv \
-              kivymd \
-              python-for-android \
-              xkivy \
-              pyjnius \
-              buildozer \
-              kivymd
+       #install some dependencies
+       - name: Install and upgrade dependencies
+         shell: bash
+         working-directory: ${{ inputs.working-directory || '.' }}
+         run: |
+           sudo apt update
+           sudo apt install -y git zip unzip openjdk-17-jdk python3-pip autoconf libtool pkg-config zlib1g-dev libncurses5-dev libncursesw5-dev libtinfo5 cmake libffi-dev libssl-dev
+           sudo apt upgrade
+           export PATH=$PATH:~/.local/bin/
+           python -m pip install --upgrade \
+             Cython==0.29.33 \
+             virtualenv \
+             kivymd \
+             python-for-android \
+             xkivy \
+             pyjnius \
+             buildozer \
+             kivymd
             
-        #install requirements in requirements.txt if so
-        - name: Install requirements in requirements.txt if it exists
-          shell: bash
-          working-directory: ${{github.events.inputs.working-directory || '.'}}
-          if: ${{ hashFiles('requirements.txt') != '' }}
-          run: |
-            python -m pip install -r requirements.txt
+       #install requirements in requirements.txt if so
+       - name: Install requirements in requirements.txt if it exists
+         shell: bash
+         working-directory: ${{ inputs.working-directory || '.' }}
+         if: ${{ hashFiles('requirements.txt') != '' }}
+         run: |
+           python -m pip install -r requirements.txt
 
-        #build with buildozer
-        - name: Build with Buildozer
-          id: buildozer
-          shell: bash
-          working-directory: ${{github.events.inputs.working-directory || '.'}}
-          run: |
-            ${{inputs.command || 'buildozer -v android debug'}}
+       #build with buildozer
+       - name: Build with Buildozer
+         shell: bash
+         working-directory: ${{github.events.inputs.working-directory || '.'}}
+         run: |
+           ${{inputs.command || 'buildozer -v android debug'}}
       
         #upload apk
         - name: Upload artifacts
