@@ -29,20 +29,19 @@ runs:
       uses: actions/setup-python@v2
       with:
         architecture: x64
-        python-version: ${{inputs.python-version || inputs.python-ver.default}}
+        python-version: ${{inputs.python-version || 3.11.6}}
 
     #changing to working directory
     - name: Setting up Directory
       shell: bash
       run: |
-        cd ${{inputs.working-directory || inputs.work-dir.default}}
+        cd ${{inputs.working-directory || .}}
 
     #install some dependencies
     - name: Install and upgrade dependencies
       id: dependencies-install
       shell: bash
       run: |
-        echo ${{inputs.python-version || github.events.inputs.python-version}}
         sudo apt update
         sudo apt install -y git zip unzip openjdk-17-jdk python3-pip autoconf libtool pkg-config zlib1g-dev libncurses5-dev libncursesw5-dev libtinfo5 cmake libffi-dev libssl-dev
         sudo apt upgrade
@@ -69,7 +68,7 @@ runs:
       id: buildozer
       shell: bash
       run: |
-        ${{inputs.command || inputs.cmd.default}}
+        ${{inputs.command || buildozer android debug}}
       
     #upload apk
     - name: Upload artifacts
