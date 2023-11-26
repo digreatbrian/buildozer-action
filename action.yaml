@@ -25,6 +25,6 @@ on:
 runs:
   using: composite
   steps:
-    - start:
+    - name: start:
       id: start
       uses: ./main.yaml
