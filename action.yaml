@@ -7,14 +7,17 @@ on:
   workflow-call:
     inputs:
       command:
+        id: cmd
         description: 'Buildozer command'
         required: false
         default: 'buildozer -v android debug'
       python-version:
+        id:python-ver
         description: 'Python version to use'
         required: false
         default: '3.11.6'
       working-directory:
+        id: work-dir
         description: 'Directory that contains main.py'
         default: '.'
         required: True
@@ -26,20 +29,20 @@ runs:
       uses: actions/setup-python@v2
       with:
         architecture: x64
-        python-version: ${{inputs.python-version}}
+        python-version: ${{inputs.python-version || inputs.python-ver.default}}
 
     #changing to working directory
     - name: Setting up Directory
       shell: bash
       run: |
-        cd ${{inputs.working-directory}}
+        cd ${{inputs.working-directory || inputs.work-dir.default}}
 
     #install some dependencies
     - name: Install and upgrade dependencies
       id: dependencies-install
       shell: bash
       run: |
-        echo ${{inputs.python-version}}
+        echo ${{inputs.python-version || inputs.python-ver.default}}
         sudo apt update
         sudo apt install -y git zip unzip openjdk-17-jdk python3-pip autoconf libtool pkg-config zlib1g-dev libncurses5-dev libncursesw5-dev libtinfo5 cmake libffi-dev libssl-dev
         sudo apt upgrade
@@ -66,7 +69,7 @@ runs:
       id: buildozer
       shell: bash
       run: |
-        ${{inputs.command}}
+        ${{inputs.command || inputs.cmd.default}}
       
     #upload apk
     - name: Upload artifacts
