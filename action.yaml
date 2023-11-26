@@ -23,19 +23,22 @@ on:
         required: true
 runs:
   using: composite
+  defaults:
+      run:
+        working-directory: ${{inputs.working-directory || '.'}}
   steps:
+    #changing to working directory
+    - name: Setting up Directory
+      shell: bash
+      run: |
+        cd ${{inputs.working-directory || '.'}}
+        
     - uses: actions/checkout@v4
     - name: Setup python
       uses: actions/setup-python@v2
       with:
         architecture: x64
         python-version: ${{inputs.python-version || '3.11.6'}}
-
-    #changing to working directory
-    - name: Setting up Directory
-      shell: bash
-      run: |
-        cd ${{inputs.working-directory || '.'}}
 
     #install some dependencies
     - name: Install and upgrade dependencies
@@ -68,7 +71,7 @@ runs:
       id: buildozer
       shell: bash
       run: |
-        ${{inputs.command || 'buildozer android debug'}}
+        ${{inputs.command || 'buildozer -v android debug'}}
       
     #upload apk
     - name: Upload artifacts
