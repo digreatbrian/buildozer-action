@@ -21,11 +21,13 @@ on:
         description: 'Directory that contains main.py'
         default: '.'
         required: true
+
+defaults:
+  run:
+    working-directory: ${{inputs.working-directory || '.'}}
+
 runs:
   using: composite
-  defaults:
-      run:
-        working-directory: ${{inputs.working-directory || '.'}}
   steps:
     #changing to working directory
     - name: Setting up Directory
