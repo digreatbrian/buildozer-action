@@ -1,31 +1,31 @@
 name: Kivy app to Apk
 description: Convert Kivy app to APK
+
 branding:
   icon: kivy
   color: green
-on:
-  workflow-call:
-    inputs:
-      buildozer-command:
-        description: 'Buildozer command'
-        required: false
-        default: 'buildozer -v android debug'
-        type: string
-      python-version:
-        description: 'Python version to use'
-        required: false
-        default: '3.11.6'
-        type: string
-      working-dir:
-        description: 'Directory that contains main.py'
-        default: '.'
-        required: false
-        type: string
-      platform:
-        description: 'Platform to run on, defaults to ubuntu-latest'
-        default: 'ubuntu-latest'
-        required: false
-        type: string
+
+inputs:
+  buildozer-command:
+    description: 'Buildozer command'
+    required: false
+    default: 'buildozer -v android debug'
+    type: string
+  python-version:
+    description: 'Python version to use'
+    required: false
+    default: '3.11.6'
+    type: string
+  working-dir:
+    description: 'Directory that contains main.py'
+    default: '.'
+    required: false
+    type: string
+  platform:
+    description: 'Platform to run on, defaults to ubuntu-latest'
+    default: 'ubuntu-latest'
+    required: false
+    type: string
 
 defaults:
   run:
