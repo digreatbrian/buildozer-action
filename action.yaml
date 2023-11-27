@@ -25,7 +25,6 @@ on:
 
 runs:
   using: composite
-  working-directory: ${{inputs.working-directory || '.'}}
   steps:
     #changing to working directory
     - name: Setting up Directory and others
