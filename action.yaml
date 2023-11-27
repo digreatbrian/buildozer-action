@@ -28,4 +28,4 @@ runs:
     - uses: actions/checkout@v4
     - name: start
       id: start
-      uses: ./setup
+      uses: setup
