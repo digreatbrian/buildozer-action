@@ -61,7 +61,7 @@ runs:
     #install requirements in requirements.txt if so
     - name: Install requirements in requirements.txt if it exists
       shell: bash
-      working-directory: ${{ steps.step1.inputs.working-directory || '.' }}
+      working-directory: ${{inputs.working-directory || '.' }}
       if: ${{hashFiles('requirements.txt') != ''}}
       run: |
         python -m pip install -r requirements.txt
