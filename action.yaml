@@ -8,72 +8,75 @@ on:
     inputs:
       buildozer-command:
         description: 'Buildozer command'
-        required: true
+        required: false
         default: 'buildozer -v android debug'
+        type: string
       python-version:
         description: 'Python version to use'
-        required: true
+        required: false
         default: '3.11.6'
-      working-directory:
+        type: string
+      working-dir:
         description: 'Directory that contains main.py'
         default: '.'
-        required: true
-      runs-on:
-        description: 'Platform to run on defaults to ubuntu-latest'
+        required: false
+        type: string
+      platform:
+        description: 'Platform to run on, defaults to ubuntu-latest'
         default: 'ubuntu-latest'
-        required: true
+        required: false
+        type: string
 
-runs:
-  using: composite
-  steps:   
-    - uses: actions/checkout@v4
-    - name: Setup python
-      uses: actions/setup-python@v2
-      with:
-        architecture: x64
-        python-version: ${{inputs.python-version || '3.11.6'}}
+defaults:
+  run:
+    shell: bash
+    working-directory: ${{inputs.working-dir}}
 
-    #changing to working directory
-    - name: Setting up Directory and others
-      shell: bash
-      run: |
-        cd ${{inputs.working-directory || '.'}} && echo export PATH=$PATH:~/.local/bin/ >> ~/.bashrc
+jobs:
+  buildozer-action-start:
+    runs-on: ${{inputs.platform}}
+    steps:   
+      - uses: actions/checkout@v4
+      - name: Setup python
+        uses: actions/setup-python@v2
+        with:
+          architecture: x64
+          python-version: ${{inputs.python-version}}
 
-    #install some dependencies
-    - name: Install and upgrade dependencies
-      shell: bash
-      working-directory: ${{inputs.working-directory || '.'}}
-      run: |
-        sudo apt update
-        sudo apt install -y git zip unzip openjdk-17-jdk python3-pip autoconf libtool pkg-config zlib1g-dev libncurses5-dev libncursesw5-dev libtinfo5 cmake libffi-dev libssl-dev
-        python -m pip install --upgrade \
-          Cython==0.29.33 \
-          virtualenv \
-          kivymd \
-          python-for-android \
-          xkivy \
-          pyjnius \
-          buildozer \
-          kivymd
+      #adding directory to PATH
+      - name: Adding some directory to PATH
+        run: |
+          echo export PATH=$PATH:~/.local/bin/ >> ~/.bashrc
+
+      #install some dependencies
+      - name: Install and upgrade dependencies
+        run: |
+          sudo apt update
+          sudo apt install -y git zip unzip openjdk-17-jdk python3-pip autoconf libtool pkg-config zlib1g-dev libncurses5-dev libncursesw5-dev libtinfo5 cmake libffi-dev libssl-dev
+          python -m pip install --upgrade \
+            Cython==0.29.33 \
+            virtualenv \
+            kivymd \
+            python-for-android \
+            xkivy \
+            pyjnius \
+            buildozer \
+            kivymd
             
-    #install requirements in requirements.txt if so
-    - name: Install requirements in requirements.txt if it exists
-      shell: bash
-      working-directory: ${{inputs.working-directory || '.' }}
-      if: ${{hashFiles('requirements.txt') != ''}}
-      run: |
-        python -m pip install -r requirements.txt
+      #install requirements in requirements.txt if so
+      - name: Install requirements in requirements.txt if it exists
+        if: ${{hashFiles('requirements.txt') != ''}}
+        run: |
+          python -m pip install -r requirements.txt
 
-    #build with buildozer
-    - name: Build with Buildozer
-      shell: bash
-      working-directory: ${{inputs.working-directory || '.'}}
-      run: |
-        ${{inputs.buildozer-command || 'buildozer -v android debug'}}
+      #build with buildozer
+      - name: Build with Buildozer
+        run: |
+          ${{inputs.buildozer-command}}
       
-    #upload apk
-    - name: Upload artifacts
-      uses: actions/upload-artifact@v2
-      with:
-        name: package
-        path: ./bin
+      #upload apk
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: package
+          path: ./bin
