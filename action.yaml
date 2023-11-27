@@ -25,15 +25,17 @@ on:
 
 runs:
   using: composite
+  working-directory: ${{inputs.working-directory || '.'}}
   steps:
     #changing to working directory
-    - name: Setting up Directory
+    - name: Setting up Directory and others
       shell: bash
       run: |
-        echo $PWD
+        cd ${{inputs.working-directory || '.'}} && echo export PATH=$PATH:~/.local/bin/ >> ~/.bashrc
         
     - uses: actions/checkout@v4
     - name: Setup python
+      working-directory: ${{inputs.working-directory || '.'}}
       uses: actions/setup-python@v2
       with:
         architecture: x64
@@ -46,8 +48,6 @@ runs:
       run: |
         sudo apt update
         sudo apt install -y git zip unzip openjdk-17-jdk python3-pip autoconf libtool pkg-config zlib1g-dev libncurses5-dev libncursesw5-dev libtinfo5 cmake libffi-dev libssl-dev
-        sudo apt upgrade
-        export PATH=$PATH:~/.local/bin/
         python -m pip install --upgrade \
           Cython==0.29.33 \
           virtualenv \
