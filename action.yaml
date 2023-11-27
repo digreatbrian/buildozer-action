@@ -25,19 +25,19 @@ on:
 
 runs:
   using: composite
-  steps:
-    #changing to working directory
-    - name: Setting up Directory and others
-      shell: bash
-      run: |
-        cd ${{inputs.working-directory || '.'}} && echo export PATH=$PATH:~/.local/bin/ >> ~/.bashrc
-        
+  steps:   
     - uses: actions/checkout@v4
     - name: Setup python
       uses: actions/setup-python@v2
       with:
         architecture: x64
         python-version: ${{inputs.python-version || '3.11.6'}}
+
+    #changing to working directory
+    - name: Setting up Directory and others
+      shell: bash
+      run: |
+        cd ${{inputs.working-directory || '.'}} && echo export PATH=$PATH:~/.local/bin/ >> ~/.bashrc
 
     #install some dependencies
     - name: Install and upgrade dependencies
