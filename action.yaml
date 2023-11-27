@@ -34,7 +34,6 @@ runs:
         
     - uses: actions/checkout@v4
     - name: Setup python
-      working-directory: ${{inputs.working-directory || '.'}}
       uses: actions/setup-python@v2
       with:
         architecture: x64
