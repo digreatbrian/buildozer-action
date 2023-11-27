@@ -22,10 +22,18 @@ on:
         description: 'Platform to run on defaults to ubuntu-latest'
         default: 'ubuntu-latest'
         required: true
+jobs:
+  jobless:
+    runs-on: ubuntu-latest
+    steps:
+      - name: unname
+        run:
+          echo Job run
 runs:
   using: composite
   steps:
     - uses: actions/checkout@v4
     - name: start
       id: start
-      uses: setup
+      run:
+        echo None
