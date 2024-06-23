@@ -14,7 +14,7 @@ inputs:
   python-version:
     description: 'Python version to use'
     required: false
-    default: '3.11.6'
+    default: '3.8'
     type: string
   working-dir:
     description: 'Directory that contains main.py'
@@ -27,26 +27,18 @@ inputs:
     required: false
     type: string
 
-defaults:
-  run:
-    shell: bash
-    working-directory: ${{inputs.working-dir}}
-
 jobs:
   buildozer-action-start:
     runs-on: ${{inputs.platform}}
     steps:   
-      - uses: actions/checkout@v4
+      - id: repo-checkout
+        uses: actions/checkout@v4
+
       - name: Setup python
         uses: actions/setup-python@v2
         with:
           architecture: x64
           python-version: ${{inputs.python-version}}
-
-      #adding directory to PATH
-      - name: Adding some directory to PATH
-        run: |
-          echo export PATH=$PATH:~/.local/bin/ >> ~/.bashrc
 
       #install some dependencies
       - name: Install and upgrade dependencies
@@ -62,17 +54,20 @@ jobs:
             pyjnius \
             buildozer \
             kivymd
+        working-directory: ${{steps.repo-checkout.outputs.path}}
             
       #install requirements in requirements.txt if so
       - name: Install requirements in requirements.txt if it exists
         if: ${{hashFiles('requirements.txt') != ''}}
         run: |
           python -m pip install -r requirements.txt
+        working-directory: ${{steps.repo-checkout.outputs.path}}
 
       #build with buildozer
       - name: Build with Buildozer
         run: |
           ${{inputs.buildozer-command}}
+        working-directory: ${{steps.repo-checkout.outputs.path}}
       
       #upload apk
       - name: Upload artifacts
@@ -80,3 +75,4 @@ jobs:
         with:
           name: package
           path: ./bin
+        working-directory: ${{steps.repo-checkout.outputs.path}}
