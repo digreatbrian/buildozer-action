@@ -1,74 +1,39 @@
-name: Kivy app to Apk
-description: Convert Kivy app to APK
-
-branding:
-  icon: kivy
-  color: green
-
+name: 'Kivy App to APK'
+description: 'Convert Kivy app to APK'
 inputs:
-  buildozer-command:
-    description: 'Buildozer command'
-    required: false
-    default: 'buildozer -v android debug'
-    type: string
   python-version:
     description: 'Python version to use'
-    required: false
+    required: true
     default: '3.8'
-    type: string
-  working-dir:
-    description: 'Directory that contains main.py'
-    default: '.'
-    required: false
-    type: string
-  platform:
-    description: 'Platform to run on, defaults to ubuntu-latest'
-    default: 'ubuntu-latest'
-    required: false
-    type: string
+runs:
+  using: "composite"
+  steps:
+    - name: Setup python
+      uses: actions/setup-python@v2
+      with:
+        architecture: x64
+        python-version: ${{ inputs.python-version }}
+      shell: bash
 
-jobs:
-  buildozer-action-start:
-    runs-on: ${{inputs.platform}}
-    steps:   
-      - id: repo-checkout
-        uses: actions/checkout@v4
+    - name: Install and upgrade dependencies
+      run: |
+        sudo apt update
+        sudo apt install -y git zip unzip openjdk-17-jdk python3-pip autoconf libtool pkg-config zlib1g-dev libncurses5-dev libncursesw5-dev libtinfo5 cmake libffi-dev libssl-dev
+        python -m pip install --upgrade \
+          Cython==0.29.33 \
+          virtualenv \
+          python-for-android \
+          buildozer
+      shell: bash
 
-      - name: Setup python
-        uses: actions/setup-python@v2
-        with:
-          architecture: x64
-          python-version: ${{inputs.python-version}}
-
-      #install some dependencies
-      - name: Install and upgrade dependencies
-        run: |
-          sudo apt update
-          sudo apt install -y git zip unzip openjdk-17-jdk python3-pip autoconf libtool pkg-config zlib1g-dev libncurses5-dev libncursesw5-dev libtinfo5 cmake libffi-dev libssl-dev
-          python -m pip install --upgrade \
-            Cython==0.29.33 \
-            virtualenv \
-            python-for-android \
-            buildozer \
-        working-directory: ${{steps.repo-checkout.outputs.path}}
-            
-      #install requirements in requirements.txt if so
-      - name: Install requirements in requirements.txt if it exists
-        if: ${{hashFiles('requirements.txt') != ''}}
-        run: |
+    - name: Install requirements in requirements.txt if it exists
+      run: |
+        if [ -f requirements.txt ]; then
           python -m pip install -r requirements.txt
-        working-directory: ${{steps.repo-checkout.outputs.path}}
+        fi
+      shell: bash
 
-      #build with buildozer
-      - name: Build with Buildozer
-        run: |
-          ${{inputs.buildozer-command}}
-        working-directory: ${{steps.repo-checkout.outputs.path}}
-      
-      #upload apk
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v2
-        with:
-          name: package
-          path: ./bin
-        working-directory: ${{steps.repo-checkout.outputs.path}}
+    - name: Build with Buildozer
+      run: |
+        buildozer -v android debug
+      shell: bash
