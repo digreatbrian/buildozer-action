@@ -3,8 +3,14 @@ description: 'Convert Kivy app to APK'
 inputs:
   python-version:
     description: 'Python version to use'
-    required: true
     default: '3.8'
+  workdir:
+    default: '.'
+    description: 'Working directory'
+  buildozer-cmd:
+    default: 'buildozer android debug'
+    description: 'Buildozer command to use'
+
 runs:
   using: "composite"
   steps:
@@ -35,5 +41,5 @@ runs:
 
     - name: Build with Buildozer
       run: |
-        buildozer -v android debug
+        ${{ inputs.buildozer-cmd }}
       shell: bash
