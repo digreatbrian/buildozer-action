@@ -19,7 +19,6 @@ runs:
       with:
         architecture: x64
         python-version: ${{ inputs.python-version }}
-      shell: bash
 
     - name: Install and upgrade dependencies
       run: |
@@ -30,16 +29,13 @@ runs:
           virtualenv \
           python-for-android \
           buildozer
-      shell: bash
 
     - name: Install requirements in requirements.txt if it exists
       run: |
         if [ -f requirements.txt ]; then
           python -m pip install -r requirements.txt
         fi
-      shell: bash
 
     - name: Build with Buildozer
       run: |
         ${{ inputs.buildozer-cmd }}
-      shell: bash
