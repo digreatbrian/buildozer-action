@@ -29,6 +29,7 @@ runs:
           virtualenv \
           python-for-android \
           buildozer
+      shell: bash
 
     - name: Install requirements in requirements.txt if it exists
       run: |
