@@ -36,7 +36,9 @@ runs:
         if [ -f requirements.txt ]; then
           python -m pip install -r requirements.txt
         fi
+      shell: bash
 
     - name: Build with Buildozer
       run: |
         ${{ inputs.buildozer-cmd }}
+      shell: bash
