@@ -28,6 +28,12 @@ jobs:
         with:
           buildozer-cmd: buildozer -v android debug
           work-dir: . # directory where your main.py file rests
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: package
+          path: ./bin/*.apk
 ```
 
 ## Contributions welcome!
