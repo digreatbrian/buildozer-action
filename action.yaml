@@ -48,12 +48,8 @@ jobs:
           python -m pip install --upgrade \
             Cython==0.29.33 \
             virtualenv \
-            kivymd \
             python-for-android \
-            xkivy \
-            pyjnius \
             buildozer \
-            kivymd
         working-directory: ${{steps.repo-checkout.outputs.path}}
             
       #install requirements in requirements.txt if so
