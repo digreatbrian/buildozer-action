@@ -22,13 +22,13 @@ runs:
 
     - name: Setup Java 17 required by Gradle
       uses: actions/setup-java@v3
-        with:
-          distribution: 'temurin'  # or 'zulu','liberica', etc.
-          java-version: '17'
+      with:
+        distribution: 'temurin'  # or 'zulu','liberica', etc.
+        java-version: '17'
 
     - name: Set JAVA_HOME
       run: |
-          echo "JAVA_HOME=$JAVA_HOME" >> $GITHUB_ENV 
+        echo "JAVA_HOME=$JAVA_HOME" >> $GITHUB_ENV 
 
     - name: Install and upgrade dependencies
       run: |
