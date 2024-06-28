@@ -28,7 +28,8 @@ runs:
 
     - name: Set JAVA_HOME
       run: |
-        echo "JAVA_HOME=$JAVA_HOME" >> $GITHUB_ENV 
+        echo "JAVA_HOME=$JAVA_HOME" >> $GITHUB_ENV
+      shell: bash
 
     - name: Install and upgrade dependencies
       run: |
