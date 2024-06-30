@@ -56,7 +56,6 @@ runs:
           cmake \
           libffi-dev \
           libssl-dev
-        sudo apt upgrade
         export PATH=$PATH:~/.local/bin/
         python3 -m pip install --upgrade \
           Cython==0.29.33 \
