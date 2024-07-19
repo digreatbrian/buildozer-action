@@ -14,7 +14,7 @@ inputs:
 # Add the branding section
 branding:
   color: 'green'
-  icon: 'check'
+  icon: 'play'
 
 runs:
   using: "composite"
