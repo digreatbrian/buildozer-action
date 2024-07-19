@@ -11,6 +11,11 @@ inputs:
     default: 'buildozer android debug'
     description: 'Buildozer command to use'
 
+# Add the branding section
+branding:
+  color: 'green'
+  icon: 'check'
+
 runs:
   using: "composite"
   steps:
