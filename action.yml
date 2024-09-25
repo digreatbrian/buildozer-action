@@ -3,7 +3,7 @@ description: 'Convert Kivy app to APK'
 inputs:
   python-version:
     description: 'Python version to use'
-    default: '3.8'
+    default: '3.12'
   workdir:
     default: '.'
     description: 'Working directory'
@@ -20,13 +20,13 @@ runs:
   using: "composite"
   steps:
     - name: Setup python
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v5
       with:
         architecture: x64
         python-version: ${{ inputs.python-version }}
 
     - name: Setup Java 17 required by Gradle
-      uses: actions/setup-java@v3
+      uses: actions/setup-java@v4
       with:
         distribution: 'temurin'  # or 'zulu','liberica', etc.
         java-version: '17'
