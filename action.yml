@@ -3,7 +3,7 @@ description: 'Convert Kivy app to APK'
 inputs:
   python-version:
     description: 'Python version to use'
-    default: '3.12'
+    default: '3.8'
   workdir:
     default: '.'
     description: 'Working directory'
