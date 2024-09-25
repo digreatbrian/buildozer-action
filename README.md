@@ -22,15 +22,15 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Build APK
-        uses: digreatbrian/buildozer-action@v1
+        uses: digreatbrian/buildozer-action@v2
         with:
           buildozer-cmd: buildozer -v android debug
           work-dir: . # directory where your main.py file rests
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: package
           path: ./bin/*.apk
