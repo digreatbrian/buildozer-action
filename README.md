@@ -35,7 +35,7 @@ jobs:
           name: package
           path: ./bin/*.apk
 ```
-[![Ko-fi](./support_me_on_kofi_badge_dark.png)](https://ko-fi.com/digreatbrian)  
+[![Ko-fi](./support_me_on_kofi_badge_red.png)](https://ko-fi.com/digreatbrian)  
 
 ## Contributions welcome!
 Feel free to submit issues, suggestions, or pull requests to improve this action. Let's make it even better together! 🤗  
